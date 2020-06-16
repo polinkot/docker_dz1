@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  nginx:
+    image: polinkot/docker-course:nginx
+    ports:
+      - 80:80
+
+  apache: 
+    image: polinkot/docker-course:apache
+    ports:
+      - 88:80
+
+  php:
+    image: polinkot/docker-course:php
+    volumes:
+      - runtime:/var/www/app/runtime
+
+  redis:
+    image: redis:4.0.9
+    volumes:
+      - redis-data:/data
+    command: '--appendonly yes'
+
+  mongo:
+    image: mongo:3.6.3
+    volumes:
+      - mongo-data:/data/db
+
+  postgres: 
+    image: postgres:10.12    
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres_db
+    volumes: 
+      - pg-data:/var/lib/postgresql/data
+
+  mysql: 
+    image: mysql:5.7.30
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mysql_db
+    volumes: 
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  runtime:
+  redis-data:
+  mongo-data:  
+  pg-data:
+  mysql-data:
